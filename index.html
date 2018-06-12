@@ -34,6 +34,20 @@ body
     left: 50% !important;
     margin-left: -1.5em !important;
 }
+
+.swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 100%;
+    background: #fff;
+    opacity: 0.6;
+}
+
+.swiper-pagination-bullet-active {
+    opacity: 1;
+    background: #007aff;
+}
 </style>
 </head>
 
@@ -91,9 +105,9 @@ body
   <div style="width: 100%; background-image: url(http://p8jw7nhiw.bkt.clouddn.com/6.jpg); background-size: 100% 100%; height: 400px; overflow: hidden; height: 200px;">
     <div class="swiper-container" style="padding-top: 20px; text-align: center">
       <div class="swiper-wrapper">
-          <div class="swiper-slide"><img src="img/slider1.jpg" alt="" width="80%"></div>
-          <div class="swiper-slide"><img src="img/slider1.jpg" alt="" width="80%"></div>
-          <div class="swiper-slide"><img src="img/slider1.jpg" alt="" width="80%"></div>
+          <div class="swiper-slide"><img src="http://p8jw7nhiw.bkt.clouddn.com/slider1.jpg" alt="" width="80%"></div>
+          <div class="swiper-slide"><img src="http://p8jw7nhiw.bkt.clouddn.com/slider1.jpg" alt="" width="80%"></div>
+          <div class="swiper-slide"><img src="http://p8jw7nhiw.bkt.clouddn.com/slider1.jpg" alt="" width="80%"></div>
       </div>
       <!-- 如果需要分页器 -->
       <div class="swiper-pagination" style="  bottom: 50px;"></div>
@@ -131,13 +145,7 @@ body
 
 <script type="text/javascript">
 
-  var mySwiper = new Swiper ('.swiper-container', {
-    loop: true,
-    // 如果需要分页器
-    pagination: {
-      el: '.swiper-pagination',
-    },
-  })    
+
 
 
               window.vm = new Vue({
@@ -187,6 +195,14 @@ body
                       window.source.type = "audio/mpeg" ;
                       window.source.src = url ;
                       window.audio.appendChild(window.source);
+
+                      window.mySwiper = new Swiper ('.swiper-container', {
+                        autoplay: true,
+                        // // 如果需要分页器
+                        pagination: {
+                          el: '.swiper-pagination',
+                        },
+                      })    
                 }
               });
 </script>
