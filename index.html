@@ -40,10 +40,10 @@ body
 <body style="width: 100%; padding: 0; margin: 0;">
 
   <div id="vueapp">
-  <img src="img/1.jpg" alt="" width="100%">
+  <img src="http://p8jw7nhiw.bkt.clouddn.com/1.jpg" alt="" width="100%">
 
   <div style="width: 100%; margin-top:-1px; position: relative;">
-    <img src="img/2.jpg" alt="" width="100%">
+    <img src="http://p8jw7nhiw.bkt.clouddn.com/2.jpg" alt="" width="100%">
 
     <video id="my-video" controls preload="auto" style="position: absolute;
     top: 20px;
@@ -66,14 +66,14 @@ body
   </div>
 
   <div style="width: 100%; margin-top:-1px">
-    <img src="img/3.jpg" alt="" width="100%">
+    <img src="http://p8jw7nhiw.bkt.clouddn.com/3.jpg" alt="" width="100%">
   </div>
 
   <div style="width: 100%; margin-top:-1px; position: relative;">
-    <img src="img/4.jpg" alt="" width="100%">
+    <img src="http://p8jw7nhiw.bkt.clouddn.com/4.jpg" alt="" width="100%">
 
     <div @click="playAudio()" style="position: absolute;
-    top: 20px;
+    top: 10px;
     height: 120px;
     width: 35%;
     right: 14%;">
@@ -86,9 +86,9 @@ body
     </div>
   </div>
 
-  <img src="img/5.jpg" alt="" width="100%">
+  <img src="http://p8jw7nhiw.bkt.clouddn.com/5.jpg" alt="" width="100%">
 
-  <div style="width: 100%; background-image: url(img/6.jpg); background-size: 100% 100%; height: 400px; overflow: hidden; height: 200px;">
+  <div style="width: 100%; background-image: url(http://p8jw7nhiw.bkt.clouddn.com/6.jpg); background-size: 100% 100%; height: 400px; overflow: hidden; height: 200px;">
     <div class="swiper-container" style="padding-top: 20px; text-align: center">
       <div class="swiper-wrapper">
           <div class="swiper-slide"><img src="img/slider1.jpg" alt="" width="80%"></div>
@@ -100,7 +100,7 @@ body
     </div>
   </div>
 
-  <div style="width: 100%; background-image: url(img/6.jpg); background-size: 100% 100%; min-height: 300px" >
+  <div style="width: 100%; background-image: url(http://p8jw7nhiw.bkt.clouddn.com/6.jpg); background-size: 100% 100%; min-height: 300px" >
     <el-row>
       <el-col :span="12" style="padding: 10px 20px">
         <el-select v-model="value5" multiple placeholder="请选择">
@@ -180,12 +180,13 @@ body
                 },
                 mounted: function() {
 
-                      var url = "http://ossweb-img.qq.com/images/nextidea/act/a20150610ideas/music.mp3" ;
+                      var url = "http://p8jw7nhiw.bkt.clouddn.com/%20Maserati_HQ.mp3" ;
                       window.audio = document.createElement("audio");
                       window.source = document.createElement("source");
                       window.audio.id = "audio" ;
                       window.source.type = "audio/mpeg" ;
                       window.source.src = url ;
+                      window.audio.appendChild(window.source);
                 }
               });
 </script>
