@@ -1,0 +1,196 @@
+<!DOCTYPE>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"/>
+<meta name="screen-orientation" content="portrait">
+<meta name="x5-orientation" content="portrait">
+
+<title>玛莎拉蒂招聘</title>
+<!-- <script src="https://cdn.bootcss.com/video.js/7.0.3/video.js"></script>
+<link href="https://cdn.bootcss.com/video.js/7.0.3/video-js.css" rel="stylesheet"> -->
+
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://cdn.bootcss.com/Swiper/4.3.0/css/swiper.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.js"></script>
+
+<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+
+<script src="https://cdn.bootcss.com/element-ui/2.4.0/index.js"></script>
+<link href="https://cdn.bootcss.com/element-ui/2.4.0/theme-chalk/index.css" rel="stylesheet">
+<style>
+body
+{
+  background-color:black
+}
+
+.el-input__inner {
+  background: transparent !important;
+}
+
+.video-js .vjs-big-play-button {
+    top: 40% !important;
+    left: 50% !important;
+    margin-left: -1.5em !important;
+}
+</style>
+</head>
+
+<body style="width: 100%; padding: 0; margin: 0;">
+
+  <div id="vueapp">
+  <img src="img/1.jpg" alt="" width="100%">
+
+  <div style="width: 100%; margin-top:-1px; position: relative;">
+    <img src="img/2.jpg" alt="" width="100%">
+
+    <video id="my-video" controls preload="auto" style="position: absolute;
+    top: 20px;
+    height: 130px;
+    width: 200px;
+    left: 50%; background-color: transparent;
+    margin-left: -100px;
+    z-index: 1;">
+            <source src="http://p8jw7nhiw.bkt.clouddn.com/Awake%20Your%20Soul%20-%20final.mp4" type='video/mp4'>
+        </video>
+
+    <!-- <video id="my-player" class="video-js" style="     position: absolute;
+    top: 10px;
+    height: 130px;
+    width: 200px;
+    left: 50%; background-color: transparent;
+    margin-left: -100px;">
+      <source src="http://p8jw7nhiw.bkt.clouddn.com/Awake%20Your%20Soul%20-%20final.mp4" type="video/mp4"> -->
+    </video>
+  </div>
+
+  <div style="width: 100%; margin-top:-1px">
+    <img src="img/3.jpg" alt="" width="100%">
+  </div>
+
+  <div style="width: 100%; margin-top:-1px; position: relative;">
+    <img src="img/4.jpg" alt="" width="100%">
+
+    <div @click="playAudio()" style="position: absolute;
+    top: 20px;
+    height: 120px;
+    width: 35%;
+    right: 14%;">
+      <i class="fa fa-play-circle-o" aria-hidden="true" v-if="playaudio" style="    font-size: 60px;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 35px;"></i>
+      <i class="fa fa-pause-circle" aria-hidden="true"  v-if="!playaudio"  style="    font-size: 60px;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 35px;"></i>
+    </div>
+  </div>
+
+  <img src="img/5.jpg" alt="" width="100%">
+
+  <div style="width: 100%; background-image: url(img/6.jpg); background-size: 100% 100%; height: 400px; overflow: hidden; height: 200px;">
+    <div class="swiper-container" style="padding-top: 20px; text-align: center">
+      <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="img/slider1.jpg" alt="" width="80%"></div>
+          <div class="swiper-slide"><img src="img/slider1.jpg" alt="" width="80%"></div>
+          <div class="swiper-slide"><img src="img/slider1.jpg" alt="" width="80%"></div>
+      </div>
+      <!-- 如果需要分页器 -->
+      <div class="swiper-pagination" style="  bottom: 50px;"></div>
+    </div>
+  </div>
+
+  <div style="width: 100%; background-image: url(img/6.jpg); background-size: 100% 100%; min-height: 300px" >
+    <el-row>
+      <el-col :span="12" style="padding: 10px 20px">
+        <el-select v-model="value5" multiple placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-col>
+
+      <el-col :span="12" style="padding: 10px 20px">
+        <el-select v-model="value5" multiple placeholder="请选择" style="background: transparent">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-col>
+    </el-row>
+  </div>
+  </div>
+
+
+
+<script type="text/javascript">
+
+  var mySwiper = new Swiper ('.swiper-container', {
+    loop: true,
+    // 如果需要分页器
+    pagination: {
+      el: '.swiper-pagination',
+    },
+  })    
+
+
+              window.vm = new Vue({
+                el: "#vueapp",
+                data: {
+                  options: [{
+                    value: '选项1',
+                    label: '黄金糕'
+                  }, {
+                    value: '选项2',
+                    label: '双皮奶'
+                  }, {
+                    value: '选项3',
+                    label: '蚵仔煎'
+                  }, {
+                    value: '选项4',
+                    label: '龙须面'
+                  }, {
+                    value: '选项5',
+                    label: '北京烤鸭'
+                  }],
+                  value5: [],
+                  value11: [],
+                  playaudio: true,
+                },
+                methods: {
+
+                  playAudio:function(){
+                      
+                      if (window.audio.paused) {
+                          window.audio.play();
+                          this.playaudio = false
+                      } else {
+                          window.audio.pause();
+                          this.playaudio = true
+                      }
+
+                      //this.playaudio = !this.playaudio
+                    },
+                },
+                mounted: function() {
+
+                      var url = "http://ossweb-img.qq.com/images/nextidea/act/a20150610ideas/music.mp3" ;
+                      window.audio = document.createElement("audio");
+                      window.source = document.createElement("source");
+                      window.audio.id = "audio" ;
+                      window.source.type = "audio/mpeg" ;
+                      window.source.src = url ;
+                }
+              });
+</script>
+
+
+
+</body>
+</html>
