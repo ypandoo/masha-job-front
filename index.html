@@ -50,6 +50,11 @@ body
     opacity: 1;
     background: #007aff;
 }
+
+a:link {color: white; text-decoration: none; }
+a:active {color: white; text-decoration: none; }
+a:visited {color: white; text-decoration: none; }
+a:hover {color: white; text-decoration: none; }
 </style>
 </head>
 
@@ -172,9 +177,11 @@ body
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     text-align: center;"     element-loading-text="拼命加载中"
     element-loading-spinner="el-icon-loading">
+      <a :href="item.url">
         <el-col :span="6">{{item.position.title}}</el-col>
         <el-col :span="12">{{item.company.title}}</el-col>
         <el-col :span="6">{{item.publish_date | parseTime('{m}-{d}')}}</el-col>
+      </a>
     </el-row>
 
     <div style="color: #a8a8a8;
