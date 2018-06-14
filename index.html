@@ -16,6 +16,7 @@
 <script src="https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.js"></script>
 
 <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
 
 <script src="https://cdn.bootcss.com/element-ui/2.4.0/index.js"></script>
 <link href="https://cdn.bootcss.com/element-ui/2.4.0/theme-chalk/index.css" rel="stylesheet">
@@ -27,6 +28,7 @@ body
 
 .el-input__inner {
   background: transparent !important;
+  color: white !important;
 }
 
 .video-js .vjs-big-play-button {
@@ -117,27 +119,72 @@ body
   <div style="width: 100%; background-image: url(http://p8jw7nhiw.bkt.clouddn.com/6.jpg); background-size: 100% 100%; min-height: 300px" >
     <el-row>
       <el-col :span="12" style="padding: 10px 20px">
-        <el-select v-model="value5" multiple placeholder="请选择">
+        <el-select v-model="currentArea"  @change="getCompany()" placeholder="请选择区域">
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in areas"
+            :key="item._id"
+            :label="item.title"
+            :value="item._id">
           </el-option>
         </el-select>
       </el-col>
 
       <el-col :span="12" style="padding: 10px 20px">
-        <el-select v-model="value5" multiple placeholder="请选择" style="background: transparent">
+        <el-select v-model="currentPosition"  @change="search()" placeholder="请选择职位" style="background: transparent">
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in positions"
+            :key="item._id"
+            :label="item.title"
+            :value="item._id">
           </el-option>
         </el-select>
       </el-col>
     </el-row>
+
+      <el-row>
+      <el-col :span="24" style="padding: 10px 20px">
+        <el-select v-model="currentCompany"  @change="search()" placeholder="请选择经销商" style="background: transparent; width: 100%;">
+          <el-option
+            v-for="item in companies"
+            :key="item._id"
+            :label="item.title"
+            :value="item._id">
+          </el-option>
+        </el-select>
+      </el-col>
+    </el-row>
+
+    <el-row style="    padding: 10px 0;
+    color: white;
+    margin: 22px;
+    font-size: 14px;
+    border-bottom: 1px solid white;
+    text-align: center;">
+      <el-col :span="6">职位</el-col>
+      <el-col :span="12">公司</el-col>
+      <el-col :span="6">发布日期</el-col>
+    </el-row>
+
+    <el-row v-for="item in jobs" style="    padding: 10px 0;
+    color: white;
+    margin: 0 22px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;"     element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading">
+        <el-col :span="6">{{item.position.title}}</el-col>
+        <el-col :span="12">{{item.company.title}}</el-col>
+        <el-col :span="6">{{item.publish_date | parseTime('{m}-{d}')}}</el-col>
+    </el-row>
+
+    <div style="color: #a8a8a8;
+    text-align: right;
+    padding-right: 25px;
+    font-size: 10px;     margin: 10px 0 50px 0;">
+      {{'共为您检索到'+count+'条职位信息'}}
+    </div>
+
+
   </div>
   </div>
 
@@ -146,33 +193,56 @@ body
 <script type="text/javascript">
 
 
-
+              window.serviceUrl = "http://www.pyonex.cc:5002"
 
               window.vm = new Vue({
                 el: "#vueapp",
                 data: {
-                  options: [{
-                    value: '选项1',
-                    label: '黄金糕'
-                  }, {
-                    value: '选项2',
-                    label: '双皮奶'
-                  }, {
-                    value: '选项3',
-                    label: '蚵仔煎'
-                  }, {
-                    value: '选项4',
-                    label: '龙须面'
-                  }, {
-                    value: '选项5',
-                    label: '北京烤鸭'
-                  }],
-                  value5: [],
-                  value11: [],
+                  positions: [],
+                  companies: [],
+                  areas: [],
+                  jobs:[],
+                  currentCompany: {},
+                  currentPosition: {},
+                  currentArea : {},
+                  count: 0,
                   playaudio: true,
                 },
-                methods: {
+                filters: {
 
+                    parseTime: function(time, cFormat) {
+                        if (arguments.length === 0) {
+                          return null
+                        }
+                        const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
+                        let date
+                        if (typeof time === 'object') {
+                          date = time
+                        } else {
+                          if (('' + time).length === 10) time = parseInt(time) * 1000
+                          date = new Date(time)
+                        }
+                        const formatObj = {
+                          y: date.getFullYear(),
+                          m: date.getMonth() + 1,
+                          d: date.getDate(),
+                          h: date.getHours(),
+                          i: date.getMinutes(),
+                          s: date.getSeconds(),
+                          a: date.getDay()
+                        }
+                        const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
+                          let value = formatObj[key]
+                          if (key === 'a') return ['一', '二', '三', '四', '五', '六', '日'][value - 1]
+                          if (result.length > 0 && value < 10) {
+                            value = '0' + value
+                          }
+                          return value || 0
+                        })
+                        return time_str
+                  },
+                },
+                methods: {
                   playAudio:function(){
                       
                       if (window.audio.paused) {
@@ -185,6 +255,101 @@ body
 
                       //this.playaudio = !this.playaudio
                     },
+
+                    getArea: function () {
+                        var self = this;
+
+                        //banner
+                        Vue.http.post(window.serviceUrl + '/area/list', {})
+                            .then(function (res) {
+                                console.log(res);
+                                if (res.body.error_code == 0) {
+                                    self.areas = res.body.items
+                                    self.currentArea = self.areas[0]._id
+                                    self.getCompany()
+                                } else {
+                                  alert('获取地区失败!')
+                                  console.log('query getArea failed!');
+                                }
+                            }, function (res) {
+                                alert('获取地区失败!')
+                                console.log('query getArea failed!');
+                            });
+                    },
+
+                    getCompany: function () {
+                        var self = this;
+
+                        //banner
+                        Vue.http.post(window.serviceUrl + '/company/list', {area: self.currentArea})
+                            .then(function (res) {
+                                console.log(res);
+                                if (res.body.error_code == 0) {
+                                    self.companies = res.body.items
+                                    if(self.companies.length>0){
+                                      self.currentCompany = self.companies[0]._id
+                                      self.getPosition()
+                                    }else{
+                                      self.currentCompany = ""
+                                      self.jobs = []
+                                    }
+                                } else {
+                                  alert('获取经销商失败!')
+                                  console.log('query getArea failed!');
+                                }
+                            }, function (res) {
+                                alert('获取经销商失败!')
+                                console.log('query getArea failed!');
+                            });
+                    },
+
+                    getPosition: function () {
+                        var self = this;
+
+                        //banner
+                        Vue.http.post(window.serviceUrl + '/position/list', {})
+                            .then(function (res) {
+                                console.log(res);
+                                if (res.body.error_code == 0) {
+                                    self.positions = res.body.items
+                                    if(self.positions.length>0){
+                                      self.currentPosition = self.positions[0]._id
+                                      self.search()
+                                    }else{
+                                      self.currentPosition = ""
+                                      self.jobs = []
+                                    }
+                                } else {
+                                  alert('获取职位失败!')
+                                  console.log('query getArea failed!');
+                                }
+                            }, function (res) {
+                                alert('获取职位失败!')
+                                console.log('query getArea failed!');
+                            });
+                    },
+
+                    search: function () {
+                        var self = this;
+
+                        //banner
+                        Vue.http.post(window.serviceUrl + '/job/list', {area: self.currentArea, position: self.currentPosition, company: self.currentCompany})
+                            .then(function (res) {
+                                console.log(res);
+                                if (res.body.error_code == 0) {
+                                    self.jobs = res.body.items
+                                    self.count = res.body.items.length
+                                } else {
+                                  self.count = 0
+                                  alert('获取职位失败!')
+                                  console.log('query getArea failed!');
+                                }
+                            }, function (res) {
+                                alert('获取职位失败!')
+                                console.log('query getArea failed!');
+                            });
+                    },
+
                 },
                 mounted: function() {
 
@@ -202,7 +367,9 @@ body
                         pagination: {
                           el: '.swiper-pagination',
                         },
-                      })    
+                      })
+                      
+                      this.getArea()
                 }
               });
 </script>
